@@ -1019,9 +1019,11 @@ public abstract class BasePlayer implements
 
     public void seekTo(long positionMillis) {
         if (DEBUG) Log.d(TAG, "seekBy() called with: position = [" + positionMillis + "]");
-        if (simpleExoPlayer == null || positionMillis < 0 ||
-                positionMillis > simpleExoPlayer.getDuration()) return;
-        simpleExoPlayer.seekTo(positionMillis);
+        if (simpleExoPlayer == null) return;
+        else if (positionMillis < 0) simpleExoPlayer.seekTo(0);
+        else if (positionMillis > simpleExoPlayer.getDuration())
+            simpleExoPlayer.seekTo(simpleExoPlayer.getDuration());
+        else simpleExoPlayer.seekTo(positionMillis);
     }
 
     public void seekBy(long offsetMillis) {
